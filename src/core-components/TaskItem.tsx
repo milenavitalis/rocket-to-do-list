@@ -16,7 +16,13 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task }: TaskItemProps) {
-  const { updateTask, updateTaskStatus, deleteTask } = useTask();
+  const {
+    updateTask,
+    updateTaskStatus,
+    deleteTask,
+    isDeletingTask,
+    isUpdatingTask,
+  } = useTask();
   const [taskTitle, setTaskTitle] = React.useState(task.title || "");
   const [isEditing, setIsEditing] = React.useState(
     task?.state === TaskState.Creating
@@ -36,10 +42,11 @@ export default function TaskItem({ task }: TaskItemProps) {
 
     setIsEditing(false);
   }
-  function handleSaveTask(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSaveTask(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    updateTask(task.id, { title: taskTitle });
+    await updateTask(task.id, { title: taskTitle });
+
     setIsEditing(false);
   }
 
@@ -49,8 +56,8 @@ export default function TaskItem({ task }: TaskItemProps) {
     updateTaskStatus(task.id, checked);
   }
 
-  function handleDeleteTask() {
-    deleteTask(task.id);
+  async function handleDeleteTask() {
+    await deleteTask(task.id);
   }
 
   return (
