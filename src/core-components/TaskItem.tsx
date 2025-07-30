@@ -10,12 +10,14 @@ import { TrashIcon, PencilIcon, XIcon, CheckIcon } from "../assets/icons";
 import { Task, TaskState } from "../models/Task";
 import { cx } from "class-variance-authority";
 import useTask from "../hooks/useTask";
+import Skeleton from "../components/Skeleton";
 
 interface TaskItemProps {
   task: Task;
+  loading?: boolean;
 }
 
-export default function TaskItem({ task }: TaskItemProps) {
+export default function TaskItem({ task, loading }: TaskItemProps) {
   const {
     updateTask,
     updateTaskStatus,
@@ -69,9 +71,13 @@ export default function TaskItem({ task }: TaskItemProps) {
             checked={task.concluded}
             onChange={handleChangeTaskStatus}
           />
-          <Text className={cx("flex-1", { "line-through": task?.concluded })}>
-            {task?.title}
-          </Text>
+          {!loading ? (
+            <Text className={cx("flex-1", { "line-through": task?.concluded })}>
+              {task?.title}
+            </Text>
+          ) : (
+            <Skeleton className="flex-1 h-6" />
+          )}
           <div className="flex gap-1">
             <ButtonIcon
               icon={TrashIcon}
