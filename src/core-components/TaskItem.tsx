@@ -18,13 +18,7 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task, loading }: TaskItemProps) {
-  const {
-    updateTask,
-    updateTaskStatus,
-    deleteTask,
-    isDeletingTask,
-    isUpdatingTask,
-  } = useTask();
+  const { updateTask, updateTaskStatus, deleteTask } = useTask();
   const [taskTitle, setTaskTitle] = React.useState(task.title || "");
   const [isEditing, setIsEditing] = React.useState(
     task?.state === TaskState.Creating
